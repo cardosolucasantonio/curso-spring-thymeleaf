@@ -22,11 +22,11 @@ public interface FuncionarioDao {
 
     PaginacaoUtil<Funcionario> findByCargo(int pagina, String ordenacao, Long id);
 
-    List<Funcionario> findByPeriodo(LocalDate entrada, LocalDate saida);
+    PaginacaoUtil<Funcionario> findByPeriodo(int pagina, String ordenacao, LocalDate entrada, LocalDate saida);
 
-    List<Funcionario> findByDataEntrada(LocalDate entrada);
+    PaginacaoUtil<Funcionario> findByDataEntrada(int pagina, String ordenacao, LocalDate entrada);
 
-    List<Funcionario> findByDataSaida(LocalDate saida);
+    PaginacaoUtil<Funcionario> findByDataSaida(int pagina, String ordenacao, LocalDate saida);
 
     PaginacaoUtil<Funcionario> buscaPaginada(int pagina, String ordenacao);
 }

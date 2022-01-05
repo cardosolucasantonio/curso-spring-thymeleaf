@@ -120,10 +120,19 @@ public class FuncionarioController {
     }
 
     @GetMapping("/buscar/data")
-    public String getPorDatas(@RequestParam(name = "entrada", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate entrada,
+    public String getPorDatas(@RequestParam("page") Optional<Integer> page,
+                              @RequestParam("order") Optional<String> order,
+                              @RequestParam(name = "entrada", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate entrada,
                               @RequestParam(name = "saida", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate saida,
                               ModelMap model) {
-	    model.addAttribute("funcionarios", funcionarioService.findByDatas(entrada, saida));
+
+        int paginaAtual = page.orElse(1);
+        String ordenacao = order.orElse("ASC");
+
+        PaginacaoUtil<Funcionario> pageFuncionario = funcionarioService.findByDatas(paginaAtual, ordenacao, entrada, saida);
+
+        model.addAttribute("pageFuncionario", pageFuncionario);
+
 	    return "funcionario/lista";
     }
 

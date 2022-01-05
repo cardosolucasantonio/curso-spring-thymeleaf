@@ -22,7 +22,7 @@ public interface FuncionarioService {
 
     PaginacaoUtil<Funcionario> findByCargo(int pagina, String ordenacao, Long id);
 
-    List<Funcionario> findByDatas(LocalDate entrada, LocalDate saida);
+    PaginacaoUtil<Funcionario> findByDatas(int pagina, String ordenacao, LocalDate entrada, LocalDate saida);
 
     PaginacaoUtil<Funcionario> buscaPaginada(int pagina, String ordenacao);
 }

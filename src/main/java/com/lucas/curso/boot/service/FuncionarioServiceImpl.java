@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lucas.curso.boot.dao.FuncionarioDao;
 import com.lucas.curso.boot.domain.Funcionario;
 
+import static com.lucas.curso.boot.util.PaginacaoUtil.registrosPorPagina;
+
 @Service
 @Transactional(readOnly = true)
 public class FuncionarioServiceImpl implements FuncionarioService {
@@ -57,18 +59,18 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     }
 
     @Override
-    public List<Funcionario> findByDatas(LocalDate entrada, LocalDate saida) {
+    public PaginacaoUtil<Funcionario> findByDatas(int pagina, String ordenacao, LocalDate entrada, LocalDate saida) {
         if (!Objects.isNull(entrada) && !Objects.isNull(saida)) {
-            return dao.findByPeriodo(entrada, saida);
+            return dao.findByPeriodo(pagina, ordenacao, entrada, saida);
 
         } else if (!Objects.isNull(entrada)) {
-            return dao.findByDataEntrada(entrada);
+            return dao.findByDataEntrada(pagina, ordenacao, entrada);
 
         } if (!Objects.isNull(saida)) {
-            return dao.findByDataSaida(saida);
+            return dao.findByDataSaida(pagina, ordenacao, saida);
         }
 
-        return new ArrayList<>();
+        return new PaginacaoUtil<>();
     }
 
     public PaginacaoUtil<Funcionario> buscaPaginada(int pagina, String ordenacao) {

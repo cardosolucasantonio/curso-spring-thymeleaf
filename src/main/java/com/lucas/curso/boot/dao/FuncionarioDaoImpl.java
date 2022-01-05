@@ -47,36 +47,58 @@ public class FuncionarioDaoImpl extends AbstractDao<Funcionario, Long> implement
     }
 
     @Override
-    public List<Funcionario> findByPeriodo(LocalDate entrada, LocalDate saida) {
+    public PaginacaoUtil<Funcionario> findByPeriodo(int pagina, String ordenacao, LocalDate entrada, LocalDate saida) {
         StringBuilder jpql = new StringBuilder();
 
         jpql.append("SELECT f FROM Funcionario f ");
-        jpql.append("WHERE f.dataEntrada BETWEEN ?1 AND ?2 ");
-        jpql.append("ORDER BY dataEntrada");
+        jpql.append("WHERE f.dataEntrada BETWEEN :entradaParam AND :saidaParam ");
+        jpql.append("ORDER BY dataEntrada ");
+        jpql.append(ordenacao);
 
-        return createQuery(jpql.toString(), entrada, saida);
+        List<Funcionario> funcionarios = getEntityManager().createQuery(jpql.toString(), Funcionario.class)
+                .setFirstResult(getFirstResult(pagina))
+                .setMaxResults(registrosPorPagina)
+                .setParameter("entradaParam", entrada)
+                .setParameter("saidaParam", saida)
+                .getResultList();
+
+        return new PaginacaoUtil<>(registrosPorPagina, pagina, getTotalPaginas(), ordenacao, funcionarios);
     }
 
     @Override
-    public List<Funcionario> findByDataEntrada(LocalDate entrada) {
+    public PaginacaoUtil<Funcionario> findByDataEntrada(int pagina, String ordenacao, LocalDate entrada) {
         StringBuilder jpql = new StringBuilder();
 
         jpql.append("SELECT f FROM Funcionario f ");
-        jpql.append("WHERE f.dataEntrada = ?1 ");
-        jpql.append("ORDER BY dataEntrada");
+        jpql.append("WHERE f.dataEntrada = :entradaParam ");
+        jpql.append("ORDER BY dataEntrada ");
+        jpql.append(ordenacao);
 
-        return createQuery(jpql.toString(), entrada);
+        List<Funcionario> funcionarios = getEntityManager().createQuery(jpql.toString(), Funcionario.class)
+                .setFirstResult(getFirstResult(pagina))
+                .setMaxResults(registrosPorPagina)
+                .setParameter("entradaParam", entrada)
+                .getResultList();
+
+        return new PaginacaoUtil<>(registrosPorPagina, pagina, getTotalPaginas(), ordenacao, funcionarios);
     }
 
     @Override
-    public List<Funcionario> findByDataSaida(LocalDate saida) {
+    public PaginacaoUtil<Funcionario> findByDataSaida(int pagina, String ordenacao, LocalDate saida) {
         StringBuilder jpql = new StringBuilder();
 
         jpql.append("SELECT f FROM Funcionario f ");
-        jpql.append("WHERE f.dataSaida = ?1 ");
-        jpql.append("ORDER BY dataSaida");
+        jpql.append("WHERE f.dataSaida = :saidaParam ");
+        jpql.append("ORDER BY dataSaida ");
+        jpql.append(ordenacao);
 
-        return createQuery(jpql.toString(), saida);
+        List<Funcionario> funcionarios = getEntityManager().createQuery(jpql.toString(), Funcionario.class)
+                .setFirstResult(getFirstResult(pagina))
+                .setMaxResults(registrosPorPagina)
+                .setParameter("saidaParam", saida)
+                .getResultList();
+
+        return new PaginacaoUtil<>(registrosPorPagina, pagina, getTotalPaginas(), ordenacao, funcionarios);
     }
 
     @Override

@@ -6,6 +6,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class PaginacaoUtil<T> {
 
     public static final int registrosPorPagina = 5;
