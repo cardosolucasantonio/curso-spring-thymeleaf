@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:th="http://www.thymeleaf.org"
+				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+				
+<head>
+	<title>Spring-Boot Básico</title>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<link rel="icon" href="/image/favicon.png" />
+
+	<!-- Bootstrap core CSS -->
+	<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="/webjars/open-iconic/font/css/open-iconic-bootstrap.min.css" rel="stylesheet" />
+	
+	<!-- Custom styles for this template -->
+	<link href="/css/style.css" rel="stylesheet" />
+</head>
+<body>
+	<header th:replace="fragments/header :: header">
+		<div>header</div>
+	</header>
+	
+	<div class="layout-main">
+		<aside>
+			<nav th:replace="fragments/sidebar :: nav-sidebar">
+				<span>menu</span>
+			</nav>
+		</aside>
+		
+		<section layout:fragment="content">
+			<div>conteúdo</div>
+		</section>
+	</div>
+
+	<footer th:replace="fragments/footer :: footer">
+		<div>footer</div>
+	</footer>
+	
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="/webjars/jquery/jquery.min.js"></script>
+	<script src="/webjars/jquery-mask-plugin/dist/jquery.mask.min.js"></script>
+	<script	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+	    
+		// Função para obter o ID do registro a ser editado, no botão editar
+		
+		var url = '';
+		
+		$('button[id*="btn_"]').click(function() {
+			url = "http://localhost:8080/" + $(this).attr('id').split("_")[1];
+		});
+		
+		
+		// Função para mostrar a mensagem de confirmação para exclusão do registro
+	
+		$('#ok_confirm').click(function() {
+			document.location.href = url;
+		});
+		
+		
+		// Função que mostra o componente de aviso em tela
+		
+		$(function() {
+			$('[data-toggle="popover"]').popover();
+		});
+		
+		
+		// Função que abre/fecha a sidebar
+		
+		$(document).ready(function() {
+			
+			// Função que define o tempo que o alert ficará visível na tela			
+			setTimeout(function() {
+				$(".alert").fadeOut("slow")
+				$(".alert").alert('close');
+			}, 5000);
+			
+		    $(".navbar-toggle").click(function(){
+		        $(".sidebar").toggleClass("sidebar-open");
+		    })
+		});
+
+	</script>
+</body>
+</html>
